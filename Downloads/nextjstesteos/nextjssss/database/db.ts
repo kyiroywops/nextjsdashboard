@@ -25,14 +25,14 @@ export const connect = async() => {
 
     }
 
-    await mongoose.connect('....');
+    await mongoose.connect(process.env.MONGO_URL || '');
     mongooConnection.isConnected = 1;
     console.log("new connection");
 }
 
 export const disconnect = async() => {
-    if (mongooConnection.isConnected !== 0) {
-        console.log("no connection to break");
+    if (mongooConnection.isConnected === 0) {
+        
         return;
     }
     await mongoose.disconnect();

@@ -1,9 +1,25 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { db } from '../../database';
 
 type Data = {
-    name: string
+    message: string
 }
 
-export default function handler (req: NextApiRequest, res: NextApiResponse<Data>) {
-    res.status(200).json({ name: 'Example' })
+export default async function handler (req: NextApiRequest, res: NextApiResponse<Data>) {
+
+    if (process.env.NODE_ENV === 'production') {
+
+        return res.status(400).json({ message: 'No se puede ejecutar en produccion' });
+       
+
+
+    
+    }
+
+    await db.connect();
+
+    await db.disconnect();
+
+
+    res.status(200).json({ message: 'Proceso realizado correctamente' })
 }
